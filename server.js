@@ -9,7 +9,7 @@ dotenv.config();
 
 
 app.use(cors({
-    origin: "*",
+    origin: "https://management-frontend-five.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
