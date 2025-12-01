@@ -9,7 +9,7 @@ dotenv.config();
 
 
 app.use(cors({
-    origin: "https://management-frontend-five.vercel.app",
+    origin: "https://management-frontend-wheat.vercel.app",
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
 }));
