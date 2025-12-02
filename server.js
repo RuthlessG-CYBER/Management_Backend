@@ -11,7 +11,7 @@ dotenv.config();
 app.use(cors({
     origin: [
         "https://management-frontend-wheat.vercel.app", 
-        "http://localhost:5173"
+        // "http://localhost:5173"
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"]
