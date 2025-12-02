@@ -12,6 +12,10 @@ import {
   editOrder,
   deleteOrder,
   orderNotification,
+  totalOrders,
+  totalProducts,
+  lowStockCount,
+  recentAddedProducts,
   exportToCSV
 } from "../controllers/userController.js";
 
@@ -32,5 +36,13 @@ router.put("/orders/:id", editOrder);
 router.delete("/orders/:id", deleteOrder);
 router.get("/orders/:id", orderNotification);
 
+
+
+router.get("/total-products", totalProducts);
+router.get("/total-orders", totalOrders);
+
+router.get("/low-stock-count", lowStockCount);
+
+router.get("/recent-added-products", recentAddedProducts);
 
 router.get("/export", exportToCSV);

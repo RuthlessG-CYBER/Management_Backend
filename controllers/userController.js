@@ -248,6 +248,51 @@ export const orderNotification = async (req, res) => {
 }
 
 
+
+// Count Total Orders
+export const totalOrders = async (req, res) => {
+  try {
+    const count = await Order.countDocuments();
+    return res.status(200).json(count);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// Count Total Products
+export const totalProducts = async (req, res) => {
+  try {
+    const count = await Product.countDocuments();
+    return res.status(200).json(count);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// Count Low Stock Products
+export const lowStockCount = async (req, res) => {
+  try {
+    const count = await Product.countDocuments({
+      $expr: { $lt: ["$stock", "$minimumStockAlert"] }
+    });
+
+    return res.status(200).json(count);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// Recent Added Products
+export const recentAddedProducts = async (req, res) => {
+  try {
+    const products = await Product.find().sort({ createdAt: -1 }).limit(5);
+    return res.status(200).json(products);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+
 // Export to CSV
 export const exportToCSV = async (req, res) => {
   try {
