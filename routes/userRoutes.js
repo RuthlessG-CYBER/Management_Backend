@@ -16,6 +16,7 @@ import {
   totalProducts,
   lowStockCount,
   recentAddedProducts,
+  orderPayment,
   exportToCSV
 } from "../controllers/userController.js";
 
@@ -36,6 +37,7 @@ router.put("/orders/:id", editOrder);
 router.delete("/orders/:id", deleteOrder);
 router.get("/orders/:id", orderNotification);
 
+router.post("/order-payment", orderPayment);
 
 
 router.get("/total-products", totalProducts);

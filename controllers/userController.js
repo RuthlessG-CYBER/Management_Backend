@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { Parser as Json2CsvParser } from "json2csv";
 import dotenv from "dotenv";
+import Razorpay from "razorpay";
 dotenv.config();
 
 
@@ -65,7 +66,6 @@ export const login = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 // Get all users
 export const getAllUsers = async (req, res) => {
@@ -167,7 +167,7 @@ export const allOrders = async (req, res) => {
 // Add Order
 export const addOrder = async (req, res) => {
   try {
-    const { productId, quantity, status } = req.body;
+    const { productId, quantity, status, paymentId, paymentStatus } = req.body;
     if ( !productId || !quantity || !status ) {
       return res.status(400).json({ error: "All fields are required" });
     }
@@ -178,12 +178,35 @@ export const addOrder = async (req, res) => {
     const order = await Order.create({
       productId,
       quantity,
-      status
+      status,
+      paymentId,
+      paymentStatus
     });
     res.status(201).json({
       message: "Order created successfully",
       order
     });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+// Order Payment by rezorpay 
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET,
+});
+
+export const orderPayment = async (req, res) => {
+  try {
+    const { amount } = req.body;
+    const options = {
+      amount: amount * 100,
+      currency: "INR",
+      receipt: "order_receipt",
+    };
+    const order = await razorpay.orders.create(options);
+    res.status(200).json(order);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -291,6 +314,7 @@ export const recentAddedProducts = async (req, res) => {
     return res.status(500).json({ error: error.message });
   }
 };
+
 
 
 // Export to CSV
